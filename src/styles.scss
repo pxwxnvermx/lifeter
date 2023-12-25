@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+$primary-color: white;
+$bg: black;
+h1 {
+  color: $primary-color;
+  background-color: $bg;
+}
+
+@layer components {
+  input, select {
+    @apply px-4 py-1 border rounded;
+  }
+
+  .btn {
+    @apply px-4 py-1 text-white rounded;
+  }
+
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-800;
+  }
+
+  tr {
+    @apply border-b hover:bg-slate-50;
+    th, td {
+      @apply px-3;
+    }
+  }
+}
+

@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Lifeter - Track your lifts</title>
+    <meta charset="utf-8" />
+    <link href="main.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container mx-auto max-w-6xl" id="app">
+      <h1 class="font-black bg-white text-black text-4xl mb-2">Lifeter</h1>
+      <div
+        x-data="{
+          lifts: [],
+          cur_lift: { body_part: 'Chest', lift_name: 'Push Ups', sets: 3, reps: 10 },
+          add(cur_lift) {
+            this.lifts.push(cur_lift);
+            this.cur_lift = { body_part: 'Chest', lift_name: 'Push Ups', sets: 3, reps: 10 };
+          },
+        }"
+      >
+        <form @submit.prevent="add(cur_lift)" class="mb-2">
+          <div class="mb-1 flex gap-1">
+            <select class="py-1.5" name="body_part" x-model="cur_lift.body_part">
+              <option value="Chest">Chest</option>
+              <option value="Back">Back</option>
+              <option value="Biceps">Biceps</option>
+              <option value="Triceps">Triceps</option>
+              <option value="Shoulders">Shoulders</option>
+              <option value="Legs">Legs</option>
+            </select>
+            <input type="text" name="lift_name" placeholder="Lift Name" x-model="cur_lift.lift_name" />
+          </div>
+          <div class="mb-1 flex gap-1">
+            <input type="number" name="sets" placeholder="Sets" min="1" max="10" x-model="cur_lift.sets" />
+            <input type="number" name="reps" placeholder="Reps" min="1" max="20" x-model="cur_lift.reps" />
+          </div>
+          <div class="mb-1">
+            <button type="submit" class="btn btn-primary">Add Lift</button>
+          </div>
+        </form>
+        <hr class="mb-2" />
+        <h3 class="text-2xl mb-2">Lifts</h3>
+        <table class="w-full text-left">
+          <thead class="uppercase bg-gray-50 text-gray-800">
+            <tr>
+              <th>Body Part</th>
+              <th>Lift</th>
+              <th>Sets</th>
+              <th>Reps</th>
+            </tr>
+          </thead>
+          <template x-for="item in lifts" :key="item.body_part">
+            <tr>
+              <td x-text="item.body_part"></td>
+              <td x-text="item.lift_name"></td>
+              <td x-text="item.sets"></td>
+              <td x-text="item.reps"></td>
+            </tr>
+          </template>
+        </table>
+      </div>
+    </div>
+    <script src="bundle.js"></script>
+  </body>
+</html>
