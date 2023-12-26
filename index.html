@@ -3,7 +3,8 @@
   <head>
     <title>Lifeter - Track your lifts</title>
     <meta charset="utf-8" />
-    <link href="main.css" rel="stylesheet" />
+    <script type="module" crossorigin src="/assets/index-ZII15njA.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-HSK4FUQd.css">
   </head>
   <body>
     <div class="container mx-auto max-w-6xl" id="app">
@@ -12,13 +13,13 @@
         x-data="{
           lifts: [],
           cur_lift: { body_part: 'Chest', lift_name: 'Push Ups', sets: 3, reps: 10 },
-          add(cur_lift) {
-            this.lifts.push(cur_lift);
-            this.cur_lift = { body_part: 'Chest', lift_name: 'Push Ups', sets: 3, reps: 10 };
+          add() {
+            this.lifts.push(this.cur_lift);
+            this.cur_lift = { body_part: 'Chest' };
           },
         }"
       >
-        <form @submit.prevent="add(cur_lift)" class="mb-2">
+        <form @submit.prevent="add()" class="mb-2">
           <div class="mb-1 flex gap-1">
             <select class="py-1.5" name="body_part" x-model="cur_lift.body_part">
               <option value="Chest">Chest</option>
@@ -49,7 +50,7 @@
               <th>Reps</th>
             </tr>
           </thead>
-          <template x-for="item in lifts" :key="item.body_part">
+          <template x-for="(item, index) in lifts" :key="index">
             <tr>
               <td x-text="item.body_part"></td>
               <td x-text="item.lift_name"></td>
@@ -60,6 +61,5 @@
         </table>
       </div>
     </div>
-    <script src="bundle.js"></script>
   </body>
 </html>
