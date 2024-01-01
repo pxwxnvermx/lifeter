@@ -3,25 +3,38 @@
   <head>
     <title>Lifeter - Track your lifts</title>
     <meta charset="utf-8" />
-    <script type="module" crossorigin src="/lifeter/assets/index-ZII15njA.js"></script>
-    <link rel="stylesheet" crossorigin href="/lifeter/assets/index-HSK4FUQd.css">
+    <script type="module" crossorigin src="/lifeter/assets/index-aDGdBzof.js"></script>
+    <link rel="stylesheet" crossorigin href="/lifeter/assets/index-NFnh_739.css">
   </head>
   <body>
     <div class="container mx-auto max-w-6xl" id="app">
       <h1 class="font-black bg-white text-black text-4xl mb-2">Lifeter</h1>
       <div
         x-data="{
-          lifts: [],
+          lifts: JSON.parse(localStorage.getItem('lifts') || '[]'),
           cur_lift: { body_part: 'Chest', lift_name: 'Push Ups', sets: 3, reps: 10 },
           add() {
             this.lifts.push(this.cur_lift);
             this.cur_lift = { body_part: 'Chest' };
+            this.saveLocal();
           },
+          deleteLift(id) {
+            this.lifts.splice(id, 1);
+            this.saveLocal();
+          },
+          saveLocal() {
+            localStorage.setItem('lifts', JSON.stringify(this.lifts));
+          }
         }"
       >
         <form @submit.prevent="add()" class="mb-2">
           <div class="mb-1 flex gap-1">
-            <select class="py-1.5" name="body_part" x-model="cur_lift.body_part">
+            <select
+              class="py-1.5"
+              name="body_part"
+              required
+              x-model="cur_lift.body_part"
+            >
               <option value="Chest">Chest</option>
               <option value="Back">Back</option>
               <option value="Biceps">Biceps</option>
@@ -29,11 +42,33 @@
               <option value="Shoulders">Shoulders</option>
               <option value="Legs">Legs</option>
             </select>
-            <input type="text" name="lift_name" placeholder="Lift Name" x-model="cur_lift.lift_name" />
+            <input
+              type="text"
+              name="lift_name"
+              placeholder="Lift Name"
+              x-model="cur_lift.lift_name"
+              required
+            />
           </div>
           <div class="mb-1 flex gap-1">
-            <input type="number" name="sets" placeholder="Sets" min="1" max="10" x-model="cur_lift.sets" />
-            <input type="number" name="reps" placeholder="Reps" min="1" max="20" x-model="cur_lift.reps" />
+            <input
+              type="number"
+              name="sets"
+              placeholder="Sets"
+              min="1"
+              max="10"
+              x-model="cur_lift.sets"
+              required
+            />
+            <input
+              type="number"
+              name="reps"
+              placeholder="Reps"
+              min="1"
+              max="20"
+              x-model="cur_lift.reps"
+              required
+            />
           </div>
           <div class="mb-1">
             <button type="submit" class="btn btn-primary">Add Lift</button>
@@ -48,6 +83,7 @@
               <th>Lift</th>
               <th>Sets</th>
               <th>Reps</th>
+              <th></th>
             </tr>
           </thead>
           <template x-for="(item, index) in lifts" :key="index">
@@ -56,6 +92,15 @@
               <td x-text="item.lift_name"></td>
               <td x-text="item.sets"></td>
               <td x-text="item.reps"></td>
+              <td>
+                <button
+                  class="btn btn-danger"
+                  type="button"
+                  @click="deleteLift(index)"
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           </template>
         </table>
